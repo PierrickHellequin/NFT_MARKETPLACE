@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+/* require("hardhat-gas-reporter"); */
 
 module.exports = {
   solidity: "0.8.4",
@@ -8,4 +9,9 @@ module.exports = {
     cache: "./src/backend/cache",
     tests: "./src/backend/test"
   },
+  settings: {
+    optimizer: {
+      enabled: false
+    }
+  }
 };

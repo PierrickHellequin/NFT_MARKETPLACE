@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./Home.js";
 import Create from "./Create.js";
+import CreateCollection from "./CreateCollection";
 import Navigation from "./Navbar";
 import MyListedItems from "./MyListedItems.js";
 import MyPurchases from "./MyPurchases.js";
@@ -78,6 +79,10 @@ function App() {
               <Route
                 path="/create"
                 element={<Create marketplace={marketplace} nft={nft} />}
+              />
+              <Route
+                path="/create-collection"
+                element={<CreateCollection marketplace={marketplace} nft={nft} />}
               />
               <Route
                 path="/my-listed-items"

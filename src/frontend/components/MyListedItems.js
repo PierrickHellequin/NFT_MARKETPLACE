@@ -33,7 +33,7 @@ export default function MyListedItems({ marketplace, nft, account }) {
     let soldItems = []
     for (let indx = 1; indx <= itemCount; indx++) {
       const i = await marketplace.items(indx)
-      if (i.seller.toLowerCase() === account) {
+      if (i.nftOwner.toLowerCase() === account) {
         // get uri url from nft contract
         const uri = await nft.tokenURI(i.tokenID)
         // use uri to fetch the nft metadata stored on ipfs 

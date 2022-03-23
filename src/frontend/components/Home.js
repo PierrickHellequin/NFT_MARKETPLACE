@@ -11,14 +11,12 @@ const Home = ({ marketplace, nft }) => {
     let items = []
     console.log(itemCount);
     for (let i = 1; i <= itemCount; i++) {
-        console.log("ici");
       const item = await marketplace.items(i)
       if (!item.sold) {
           
         // get uri url from nft contract
         console.log(item.sold);
         const uri = await nft.tokenURI(item.tokenID)
-        console.log("ici 2");
         // use uri to fetch the nft metadata stored on ipfs 
         const response = await fetch(uri)
         const metadata = await response.json()

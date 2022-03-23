@@ -9,6 +9,7 @@ const Create = ({ marketplace, nft }) => {
   const [price, setPrice] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [royalty, setRoyalty] = useState(0);
 
   const uploadToIPFS = async (event) => {
     event.preventDefault();
@@ -39,14 +40,14 @@ const Create = ({ marketplace, nft }) => {
   const mintThenList = async (result) => {
     const uri = "https://ipfs.infura.io/ipfs/"+result.path;
     //mint nft
-    await (await nft.mint(uri)).wait();
+    await (await nft.mint(uri, royalty)).wait();
     // get token of the new nft
     const tokenID = await nft.tokenCount();
     //approval the marketplace
     await (await nft.setApprovalForAll(marketplace.address, tokenID)).wait();
     //add nft to the marketplace
     const listingPrice = ethers.utils.parseEther(price.toString());
-    await (await marketplace.makeItem(nft.address, tokenID, listingPrice)).wait();
+    await (await marketplace.makeItem(nft.address, tokenID, listingPrice, royalty)).wait();
   };
 
   return (
@@ -85,6 +86,12 @@ const Create = ({ marketplace, nft }) => {
                 required
                 type="number"
                 placeholder="Price in ETH"
+              />
+              <Form.Control
+                onChange={(e) => setRoyalty(e.target.value)}
+                size="lg"
+                type="number"
+                placeholder="Royalty : Maximum 10%"
               />
               <div className="d-grid px-0">
                 <Button onClick={createNFT} variant="primary" size="lg">

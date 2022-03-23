@@ -3,15 +3,55 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract NFT is ERC721URIStorage{
-    uint public tokenCount;
+contract NFT is ERC721URIStorage {
 
-    constructor() ERC721("Dapp NFT", "DAPP"){}
+    uint256 public tokenCount;
+    address public artist;
 
-    function mint(string memory _tokenURI) external returns(uint){
-        tokenCount ++;
+    struct Item{
+        uint256 itemID;
+        uint256 royaltiyFee;
+        address creator;
+        string tokenUri;
+    }
+    //IDNFT = > item
+    mapping(uint => Item) public items;
+
+    event mintBisEvent(
+        string _tokenURINFT,
+        address indexed nft,
+        uint256 tokenID,
+        address indexed _ownerNFT
+    );
+
+    constructor() ERC721("Brutal NFT", "Brutal") {}
+
+    function mint(string memory _tokenURI, uint _royaltyFee) external returns (uint256) {
+        require(_royaltyFee <= 10, "The royalties is too high ! Greedy");
+        tokenCount++;
         _safeMint(msg.sender, tokenCount);
         _setTokenURI(tokenCount, _tokenURI);
+        items[tokenCount] = Item (
+            tokenCount,
+            _royaltyFee,
+            msg.sender,
+            _tokenURI
+        );
         return tokenCount;
+    }
+
+    function mintBis(string memory _tokenURI, address ownerNft)
+        external
+        returns (uint256)
+    {
+        tokenCount++;
+        _safeMint(ownerNft, tokenCount);
+        _setTokenURI(tokenCount, _tokenURI);
+        emit mintBisEvent(_tokenURI, address(this), tokenCount, ownerNft);
+        return tokenCount;
+    }
+
+    function getRoyaltiesInfos(uint256 _itemId)  view public returns(Item memory){
+        return items[_itemId];
     }
 }
