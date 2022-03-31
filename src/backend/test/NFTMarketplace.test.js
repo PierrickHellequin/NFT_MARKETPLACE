@@ -146,14 +146,6 @@ describe("NFTMarketplace", function () {
     });
   });
 
-  describe("Create new nft collection", function () {
-    it("Create nft collection", async function () {
-      await marketplace
-        .connect(addr3)
-        .createNFTCollection("Pierrick Hellequin", URI);
-    });
-  });
-
   describe("Test royalties on NFT marketplace", function () {
     let price = 2;
     beforeEach(async function () {

@@ -51,7 +51,6 @@ const Create = ({ marketplace, nft }) => {
   };
 
   return (
-    <div className="container-fluid mt-5">
       <div className="row">
         <main
           role="main"
@@ -102,7 +101,6 @@ const Create = ({ marketplace, nft }) => {
           </div>
         </main>
       </div>
-    </div>
   );
 };
 

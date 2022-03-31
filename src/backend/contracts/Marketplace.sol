@@ -3,7 +3,6 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "./NFT.sol";
 
 contract Marketplace is ReentrancyGuard{
 
@@ -77,24 +76,6 @@ contract Marketplace is ReentrancyGuard{
             _royalties,
             msg.sender
         );
-    }
-
-    // Test connexion à un contrat avec assembly
-    function createNFTCollection(string memory _name, string memory _tokenURI) external  returns(address collectionAddress){
-        bytes memory nftBytecode = type(NFT).creationCode;
-				// Make a random salt based on the artist name
-        bytes32 salt = keccak256(abi.encodePacked(_name));
-
-        assembly {
-            collectionAddress := create2(0, add(nftBytecode, 0x20), mload(nftBytecode), salt)
-            if iszero(extcodesize(collectionAddress)) {
-                // revert if something gone wrong (collectionAddress doesn't contain an address)
-                revert(0, 0)
-            }
-        }
-        emit Deployed(collectionAddress, salt);
-        NFT(collectionAddress).mintBis(_tokenURI, msg.sender);
-        return collectionAddress;
     }
 
     function purchaseItem(uint _itemId) external payable nonReentrant{

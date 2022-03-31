@@ -40,16 +40,6 @@ contract NFT is ERC721URIStorage {
         return tokenCount;
     }
 
-    function mintBis(string memory _tokenURI, address ownerNft)
-        external
-        returns (uint256)
-    {
-        tokenCount++;
-        _safeMint(ownerNft, tokenCount);
-        _setTokenURI(tokenCount, _tokenURI);
-        emit mintBisEvent(_tokenURI, address(this), tokenCount, ownerNft);
-        return tokenCount;
-    }
 
     function getRoyaltiesInfos(uint256 _itemId)  view public returns(Item memory){
         return items[_itemId];
